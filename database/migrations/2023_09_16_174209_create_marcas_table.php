@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('marcas', function (Blueprint $table) {
+            $table->string('cnpj', 14)->primary();
+            $table->string('nome', 30)->unique();
+            $table->string('e-mail', 100)->unique();
+            $table->string('imagem', 100)->comment('Logo da marca');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('marcas');
+    }
+};
