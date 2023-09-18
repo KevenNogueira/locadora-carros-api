@@ -13,7 +13,7 @@ class LocacaoController extends Controller
      */
     public function index()
     {
-        //
+        return ['Aqui estou' => 'Mais um dia'];
     }
 
     /**
