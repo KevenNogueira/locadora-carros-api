@@ -14,4 +14,6 @@ class Marca extends Model
     protected $primaryKey = 'cnpj';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    protected $fillable = ['cnpj', 'nome', 'e-mail', 'imagem'];
 }

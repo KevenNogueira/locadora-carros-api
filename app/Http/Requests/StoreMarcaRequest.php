@@ -11,7 +11,7 @@ class StoreMarcaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreMarcaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'cnpj' => 'required|min:14|max:14|unique:marcas,cnpj',
+            'nome' => 'required|min:3|max:30',
+            'e-mail' => 'required|email|max:100',
+            'imagem' => 'required|max:100'
         ];
     }
 }

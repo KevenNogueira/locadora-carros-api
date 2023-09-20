@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Requests\UpdateMarcaRequest;
+use PhpParser\Node\Stmt\Return_;
 
 class MarcaController extends Controller
 {
@@ -13,7 +14,9 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        $marcas = Marca::all();
+
+        return $marcas;
     }
 
     /**
@@ -29,7 +32,10 @@ class MarcaController extends Controller
      */
     public function store(StoreMarcaRequest $request)
     {
-        //
+        $request->validated();
+
+        $marca = Marca::create($request->all());
+        return $marca;
     }
 
     /**
@@ -37,7 +43,7 @@ class MarcaController extends Controller
      */
     public function show(Marca $marca)
     {
-        //
+        return $marca;
     }
 
     /**
