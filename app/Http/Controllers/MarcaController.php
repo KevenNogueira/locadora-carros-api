@@ -77,6 +77,14 @@ class MarcaController extends Controller
     public function update(UpdateMarcaRequest $request, $id)
     {
 
+        $httpMethod = $request->method();
+
+        //dd($httpMethod);
+
+        $request->add(['http_method' => $httpMethod]);
+
+        $request->validated();
+
         $marca = $this->marca->find($id);
 
         if (empty($marca)) {
