@@ -22,7 +22,7 @@ class UpdateMarcaRequest extends FormRequest
     public function rules(): array
     {
 
-        //dd($this->input('http_method'));
+        $httpMethod = $this->header('X-HTTP-Method');
 
         $rules = [
             'cnpj' => 'required|min:14|max:14',
@@ -31,7 +31,7 @@ class UpdateMarcaRequest extends FormRequest
             'imagem' => 'required|min:1|max:100'
         ];
 
-        if ($this->input('http_method') === 'PATCH') {
+        if ($httpMethod === 'PATCH') {
 
             $rules = [
                 'cnpj' => 'sometimes|required|min:14|max:14',
