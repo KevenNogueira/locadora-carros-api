@@ -25,7 +25,7 @@ class StoreMarcaRequest extends FormRequest
             'cnpj' => 'required|min:14|max:14|unique:marcas,cnpj',
             'nome' => 'required|min:3|max:30',
             'email' => 'required|email|min:1|max:100',
-            'imagem' => 'required|image|max:10'
+            'imagem' => 'required|image|max:100'
         ];
     }
 
@@ -41,7 +41,7 @@ class StoreMarcaRequest extends FormRequest
             'email.email' => 'O campo email deve ser um email',
             'email.min' => 'O email deve conter no minimo 3 caracteres',
             'email.max' => 'O email deve conter no máximo 100 caracteres',
-            'imagem.max' => 'A imagem deve conter no máximo 100kb',
+            'imagem.max' => 'A imagem deve ter no máximo 100kb',
             'imagem.image' => 'O arquivo deve ser uma imagem'
         ];
     }

@@ -28,7 +28,7 @@ class UpdateMarcaRequest extends FormRequest
             'cnpj' => 'required|min:14|max:14',
             'nome' => 'required|min:3|max:30',
             'email' => 'required|email|min:3|max:100',
-            'imagem' => 'required|min:1|max:100'
+            'imagem' => 'required|image|max:100'
         ];
 
         if ($httpMethod === 'PATCH') {
@@ -37,7 +37,7 @@ class UpdateMarcaRequest extends FormRequest
                 'cnpj' => 'sometimes|required|min:14|max:14',
                 'nome' => 'sometimes|required|min:3|max:30',
                 'email' => 'sometimes|required|email|min:3|max:100',
-                'imagem' => 'sometimes|required|min:1|max:100'
+                'imagem' => 'sometimes|required|image|max:100'
             ];
 
             return $rules;
@@ -57,8 +57,8 @@ class UpdateMarcaRequest extends FormRequest
             'email.email' => 'O campo email deve ser um email',
             'email.min' => 'O email deve conter no minimo 3 caracteres',
             'email.max' => 'O email deve conter no máximo 100 caracteres',
-            'imagem.min' => 'A imagem deve conter no minimo 1 caracter',
-            'imagem.max' => 'A imagem deve conter no máximo 100kb'
+            'imagem.max' => 'A imagem deve ter no máximo 100kb',
+            'imagem.image' => 'O arquivo deve ser uma imagem'
         ];
     }
 }
