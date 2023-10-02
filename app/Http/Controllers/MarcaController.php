@@ -30,7 +30,6 @@ class MarcaController extends Controller
      */
     public function store(StoreMarcaRequest $request)
     {
-        $request->validated();
 
         $marca = $this->marca->create($request->all());
         return response()->json(
@@ -76,8 +75,6 @@ class MarcaController extends Controller
      */
     public function update(UpdateMarcaRequest $request, $id)
     {
-        $request->validated();
-
         $marca = $this->marca->find($id);
 
         if (empty($marca)) {
