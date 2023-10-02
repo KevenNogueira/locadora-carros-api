@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('marcas', function (Blueprint $table) {
             $table->string('cnpj', 14)->primary();
             $table->string('nome', 30)->unique();
-            $table->string('e-mail', 100)->unique();
+            $table->string('email', 100)->unique();
             $table->string('imagem', 100)->comment('Logo da marca');
             $table->softDeletes();
             $table->timestamps();
