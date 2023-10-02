@@ -30,8 +30,17 @@ class MarcaController extends Controller
      */
     public function store(StoreMarcaRequest $request)
     {
+        $logo = $request->file('imagem');
 
-        $marca = $this->marca->create($request->all());
+        $pathLogo = $logo->store('imagens/logo', 'public');
+
+        $marca = $this->marca->create([
+            'cnpj' => $request->cnpj,
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'imagem' => $pathLogo,
+        ]);
+
         return response()->json(
             [
                 'statusCode' => 201,
