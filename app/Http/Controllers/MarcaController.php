@@ -97,20 +97,25 @@ class MarcaController extends Controller
             );
         }
 
+        $pathLogo = null;
         $logo = $request->file('imagem');
 
-        if ($logo == null) {
-            $pathLogo = null;
-        } else if ($logo != null) {
+
+        if ($logo != null) {
             $pathLogo = $logo->store('imagens/logo', 'public');
         }
 
+        $cnpj = $request->cnpj == null ? $marca->cnpj : $request->cnpj;
+        $nome = $request->nome == null ? $marca->nome : $request->nome;
+        $email = $request->email == null ? $marca->email : $request->email;
+        $imagem = $pathLogo == null ? $marca->imagem : $pathLogo;
+
 
         $marca->update([
-            'cnpj' => $request->cnpj == null ? $marca->cnpj : $request->cnpj,
-            'nome' => $request->nome == null ? $marca->nome : $request->nome,
-            'email' => $request->email == null ? $marca->email : $request->email,
-            'imagem' => $pathLogo == null ? $marca->imagem : $pathLogo,
+            'cnpj' => $cnpj,
+            'nome' => $nome,
+            'email' => $email,
+            'imagem' => $imagem
         ]);
 
         return response()->json(
