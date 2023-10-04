@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Marca;
 use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Requests\UpdateMarcaRequest;
@@ -103,6 +104,7 @@ class MarcaController extends Controller
 
         if ($logo != null) {
             $pathLogo = $logo->store('imagens/logo', 'public');
+            Storage::disk('public')->delete($marca->imagem);
         }
 
         $cnpj = $request->cnpj == null ? $marca->cnpj : $request->cnpj;
@@ -146,6 +148,7 @@ class MarcaController extends Controller
             );
         }
 
+        Storage::disk('public')->delete($marca->imagem);
         $marca->delete();
 
         return response()->json(
