@@ -8,20 +8,28 @@ use App\Http\Requests\UpdateModeloRequest;
 
 class ModeloController extends Controller
 {
+
+    public $modelo;
+
+    public function __construct(Modelo $modelo)
+    {
+
+        $this->modelo = $modelo;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
+        $modelos = $this->modelo->all();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json(
+            [
+                'modelos' => $modelos,
+            ],
+            200
+        );
     }
 
     /**
@@ -29,21 +37,34 @@ class ModeloController extends Controller
      */
     public function store(StoreModeloRequest $request)
     {
-        //
+        $imgCarro = $request->file('imagem');
+
+        $pathImgCarro = $imgCarro->store('imagens/carro', 'public');
+
+        $modelo = $this->modelo->create([
+            'num_modelo' => $request->num_modelo,
+            'cnpj_marca' => $request->cnpj_marca,
+            'imagem' => $pathImgCarro,
+            'numero_portas' => $request->numero_portas,
+            'lugares' => $request->lugares,
+            'air_bag' => $request->air_bag,
+            'abs' => $request->abs,
+        ]);
+
+        return response()->json(
+            [
+                'statusCode' => 201,
+                'Mensagem' => 'Criação feita com sucesso!',
+                'modelo' => $modelo
+            ],
+            201
+        );
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Modelo $modelo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Modelo $modelo)
     {
         //
     }

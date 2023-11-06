@@ -14,4 +14,14 @@ class Modelo extends Model
     protected $primaryKey = 'num_modelo';
     public $incrementing = false;
     protected $keyType = 'integer';
+
+    protected $fillable = [
+        'num_modelo',
+        'cnpj_marca',
+        'imagem',
+        'numero_portas',
+        'lugares',
+        'air_bag',
+        'abs',
+    ];
 }
