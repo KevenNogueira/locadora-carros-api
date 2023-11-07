@@ -19,8 +19,8 @@ class Modelo extends Model
         'num_modelo',
         'cnpj_marca',
         'imagem',
-        'numero_portas',
-        'lugares',
+        'num_porta',
+        'num_assento',
         'air_bag',
         'abs',
     ];

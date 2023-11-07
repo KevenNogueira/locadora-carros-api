@@ -60,9 +60,9 @@ class MarcaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($cnpj)
     {
-        $marca = $this->marca->find($id);
+        $marca = $this->marca->find($cnpj);
 
         if (empty($marca)) {
             return response()->json(
@@ -78,7 +78,7 @@ class MarcaController extends Controller
         return response()->json(
             [
                 'statusCode' => 200,
-                'mensagem' => 'Entidade encontrada',
+                'mensagem' => 'Marca Localizada',
                 'obj' => $marca,
             ],
             200
@@ -88,16 +88,16 @@ class MarcaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMarcaRequest $request, $id)
+    public function update(UpdateMarcaRequest $request, $cnpj)
     {
-        $marca = $this->marca->find($id);
+        $marca = $this->marca->find($cnpj);
 
         if (empty($marca)) {
             return response()->json(
                 [
                     'statusCode' => 404,
                     'erro' => 'Not Found',
-                    'mensagem' => 'Desculpe! Mas o item procurado e impossivel de ser atualizado, pois não existe!'
+                    'mensagem' => 'Desculpe! Mas a marca procurada e impossivel de ser atualizada, pois não existe!'
                 ],
                 404
             );
@@ -118,12 +118,14 @@ class MarcaController extends Controller
         $imagem = $pathLogo == null ? $marca->imagem : $pathLogo;
 
 
-        $marca->update([
-            'cnpj' => $cnpj,
-            'nome' => $nome,
-            'email' => $email,
-            'imagem' => $imagem
-        ]);
+        $marca->update(
+            [
+                'cnpj' => $cnpj,
+                'nome' => $nome,
+                'email' => $email,
+                'imagem' => $imagem
+            ]
+        );
 
         return response()->json(
             [
@@ -138,9 +140,9 @@ class MarcaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($cnpj)
     {
-        $marca = $this->marca->find($id);
+        $marca = $this->marca->find($cnpj);
 
         if (empty($marca)) {
             return response()->json(

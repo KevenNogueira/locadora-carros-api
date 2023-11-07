@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Modelo;
 use App\Http\Requests\StoreModeloRequest;
 use App\Http\Requests\UpdateModeloRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ModeloController extends Controller
 {
@@ -13,7 +14,6 @@ class ModeloController extends Controller
 
     public function __construct(Modelo $modelo)
     {
-
         $this->modelo = $modelo;
     }
 
@@ -45,8 +45,8 @@ class ModeloController extends Controller
             'num_modelo' => $request->num_modelo,
             'cnpj_marca' => $request->cnpj_marca,
             'imagem' => $pathImgCarro,
-            'numero_portas' => $request->numero_portas,
-            'lugares' => $request->lugares,
+            'num_porta' => $request->num_porta,
+            'num_assento' => $request->num_assento,
             'air_bag' => $request->air_bag,
             'abs' => $request->abs,
         ]);
@@ -64,24 +64,114 @@ class ModeloController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Modelo $modelo)
+    public function show($numModelo)
     {
-        //
+        $modelo = $this->modelo->find($numModelo);
+
+        if (empty($modelo)) {
+            return response()->json(
+                [
+                    'statusCode' => 404,
+                    'erro' => 'Not Found',
+                    'mensagem' => 'Desculpe! Mas o modelo procurado não existe!',
+                ],
+                404
+            );
+        };
+
+        return response()->json(
+            [
+                'statusCode' => 200,
+                'mensagem' => 'Modelo Localizado!',
+                'modelo' => $modelo,
+            ],
+            404
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateModeloRequest $request, Modelo $modelo)
+    public function update(UpdateModeloRequest $request, $numModelo)
     {
-        //
+        $modelo = $this->modelo->find($numModelo);
+
+        if (empty($modelo)) {
+            return response()->json(
+                [
+                    'statusCode' => 404,
+                    'erro' => 'Not Found',
+                    'mensagem' => 'Desculpe! Mar o modelo procurado e impossivel de ser atualizado, pois não existe!',
+                ],
+                404
+            );
+        };
+
+        $pathImgCarro = null;
+        $imgCarro = $request->file('imagem');
+
+        if ($imgCarro != null) {
+            $pathImgCarro = $imgCarro->store('imagens/carro', 'public');
+            Storage::disk('public')->delete($modelo->imagem);
+        };
+
+        $numModelo = $request->num_modelo == null ? $modelo->num_modelo : $request->num_modelo;
+        $cnpjMarca = $request->cnpj_marca == null ? $modelo->cnpj_marca : $request->cnpj_marca;
+        $imagem = $request->imagem == null ? $modelo->imagem : $pathImgCarro;
+        $numPorta = $request->num_porta == null ? $modelo->num_porta : $request->num_porta;
+        $numAssento = $request->num_assento == null ? $modelo->num_assento : $request->num_assento;
+        $airBag = $request->air_bag == null ? $modelo->air_bag : $request->air_bag;
+        $abs = $request->abs == null ? $modelo->abs : $request->abs;
+
+        $modelo->update(
+            [
+                'num_modelo' => $numModelo,
+                'cnpj_marca' => $cnpjMarca,
+                'imagem' => $imagem,
+                'num_porta' => $numPorta,
+                'num_assento' => $numAssento,
+                'air_bag' => $airBag,
+                'abs' => $abs,
+            ]
+        );
+
+        return response()->json(
+            [
+                'statusCode' => 200,
+                'mensagem' => 'Atualização bem-sucedida.',
+                'obj' => $modelo,
+            ],
+            200
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Modelo $modelo)
+    public function destroy($numModelo)
     {
-        //
+        $modelo = $this->modelo->find($numModelo);
+
+        if (empty($modelo)) {
+            return response()->json(
+                [
+                    'statusCode' => 404,
+                    'erro' => 'Not Fund',
+                    'mensagem' => 'Desculpe! Mas o modelo e impossivel ser excluido, pois o mesmo não existe!',
+                ],
+                404
+            );
+        }
+
+        Storage::disk('public')->delete($modelo->imagem);
+        $modelo->delete();
+
+        return response()->json(
+            [
+                'statusCode' => 200,
+                'mensagem' => 'Modelo excluido com sucesso!',
+            ],
+            200
+        );
     }
 }

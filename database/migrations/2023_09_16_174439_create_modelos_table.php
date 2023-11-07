@@ -15,8 +15,8 @@ return new class extends Migration
             $table->integer('num_modelo')->primary();
             $table->string('cnpj_marca', 14);
             $table->string('imagem', 100);
-            $table->integer('numero_portas');
-            $table->integer('lugares');
+            $table->integer('num_porta');
+            $table->integer('num_assento');
             $table->boolean('air_bag');
             $table->boolean('abs');
             $table->timestamps();
