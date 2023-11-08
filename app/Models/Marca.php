@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Marca extends Model
@@ -21,4 +22,10 @@ class Marca extends Model
         'email',
         'imagem'
     ];
+
+    public function modelos(): HasMany
+    {
+        // Uma marca possui muitos modelos
+        return $this->hasMany(Modelo::class, 'cnpj_marca', 'cnpj',);
+    }
 }

@@ -21,7 +21,9 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        $marcas = $this->marca->all();
+        $marcas = $this->marca->with('modelos')->get();
+
+        //$marcas = $this->marca->all();
 
         return response()->json(
             [
@@ -62,7 +64,8 @@ class MarcaController extends Controller
      */
     public function show($cnpj)
     {
-        $marca = $this->marca->find($cnpj);
+        $marca = $this->marca->with('modelos')->find($cnpj);
+        //$marca = $this->marca->find($cnpj);
 
         if (empty($marca)) {
             return response()->json(
@@ -79,7 +82,7 @@ class MarcaController extends Controller
             [
                 'statusCode' => 200,
                 'mensagem' => 'Marca Localizada',
-                'obj' => $marca,
+                'marca' => $marca,
             ],
             200
         );

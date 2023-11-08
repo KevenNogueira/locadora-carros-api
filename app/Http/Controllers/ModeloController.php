@@ -22,7 +22,7 @@ class ModeloController extends Controller
      */
     public function index()
     {
-        $modelos = $this->modelo->all();
+        $modelos = $this->modelo->with('marca')->get();
 
         return response()->json(
             [
@@ -67,7 +67,7 @@ class ModeloController extends Controller
      */
     public function show($numModelo)
     {
-        $modelo = $this->modelo->find($numModelo);
+        $modelo = $this->modelo->with('marca')->find($numModelo);
 
         if (empty($modelo)) {
             return response()->json(
