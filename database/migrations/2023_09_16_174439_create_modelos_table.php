@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('modelos', function (Blueprint $table) {
             $table->integer('num_modelo')->primary();
             $table->string('cnpj_marca', 14);
+            $table->string('nom_marca', 50);
             $table->string('imagem', 100);
             $table->integer('num_porta');
             $table->integer('num_assento');

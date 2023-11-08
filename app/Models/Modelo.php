@@ -18,6 +18,7 @@ class Modelo extends Model
     protected $fillable = [
         'num_modelo',
         'cnpj_marca',
+        'nom_modelo',
         'imagem',
         'num_porta',
         'num_assento',

@@ -22,11 +22,14 @@ class UpdateModeloRequest extends FormRequest
     public function rules(): array
     {
 
-        $httpMethod = $this->header('X-HTTP-Method');
 
-        return [
-            'num_modelo' => 'required|min:6|max:6|unique:modelos,num_modelo',
+        $httpMethod = $this->header('X-HTTP-Method');
+        //dd($httpMethod);
+
+        $rules = [
+            'num_modelo' => 'required|min:6|max:6',
             'cnpj_marca' => 'required|exists:marcas,cnpj|min:14|max:14',
+            'nom_modelo' => 'required|min:5|max:50',
             'imagem' => 'required|image|max:100',
             'num_porta' => 'required|integer|digits_between:1,5',
             'num_assento' => 'required|integer|digits_between:1,57',
@@ -35,16 +38,21 @@ class UpdateModeloRequest extends FormRequest
         ];
 
         if ($httpMethod === 'PATCH') {
-            return [
-                'num_modelo' => 'sometimes|required|min:6|max:6|unique:modelos,num_modelo',
+            $rules = [
+                'num_modelo' => 'sometimes|required|min:6|max:6',
                 'cnpj_marca' => 'sometimes|required|exists:marcas,cnpj|min:14|max:14',
+                'nom_modelo' => 'sometimes|required|min:5|max:50',
                 'imagem' => 'sometimes|required|image|max:100',
                 'num_porta' => 'sometimes|required|integer|digits_between:1,5',
                 'num_assento' => 'sometimes|required|integer|digits_between:1,57',
                 'air_bag' => 'sometimes|required|boolean',
                 'abs' => 'sometimes|required|boolean'
             ];
+
+            return $rules;
         }
+
+        return $rules;
     }
 
     public function messages()
@@ -54,6 +62,8 @@ class UpdateModeloRequest extends FormRequest
             'cnpj_marca.exists' => 'O CNPJ informado não existe no banco de dados',
             'cnpj_marca.min' => 'O CNPJ deve conter no minimo 14 caracteres',
             'cnpj_marca.max' => 'O CNPJ deve conter no máximo 14 caracteres',
+            'nom_modelo.min' => 'O nome do moldeo deve conter no minimo 5 caracteres',
+            'nom_modelo.max' => 'O nome do modelo deve conter no máximo 50 caracteres',
             'num_modelo.min' => 'O numero do modelo deve conter no minimo 6 caracteres',
             'num_modelo.max' => 'O numero do modelo deve conter no máximo 6 caracteres',
             'imagem.max' => 'A imagem deve ter no máximo 100kb',

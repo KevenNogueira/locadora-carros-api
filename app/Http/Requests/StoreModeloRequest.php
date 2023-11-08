@@ -24,6 +24,7 @@ class StoreModeloRequest extends FormRequest
         return [
             'num_modelo' => 'required|min:6|max:6|unique:modelos,num_modelo',
             'cnpj_marca' => 'required|exists:marcas,cnpj|min:14|max:14',
+            'nom_modelo' => 'required|min:5|max:50',
             'imagem' => 'required|image|max:100',
             'num_porta' => 'required|integer|digits_between:1,5',
             'num_assento' => 'required|integer|digits_between:1,57',
@@ -40,6 +41,8 @@ class StoreModeloRequest extends FormRequest
             'cnpj_marca.exists' => 'O CNPJ informado não existe no banco de dados',
             'cnpj_marca.min' => 'O CNPJ deve conter no minimo 14 caracteres',
             'cnpj_marca.max' => 'O CNPJ deve conter no máximo 14 caracteres',
+            'nom_modelo.min' => 'O nome do moldeo deve conter no minimo 5 caracteres',
+            'nom_modelo.max' => 'O nome do modelo deve conter no máximo 50 caracteres',
             'num_modelo.min' => 'O numero do modelo deve conter no minimo 6 caracteres',
             'num_modelo.max' => 'O numero do modelo deve conter no máximo 6 caracteres',
             'imagem.max' => 'A imagem deve ter no máximo 100kb',

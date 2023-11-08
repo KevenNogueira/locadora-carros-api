@@ -44,6 +44,7 @@ class ModeloController extends Controller
         $modelo = $this->modelo->create([
             'num_modelo' => $request->num_modelo,
             'cnpj_marca' => $request->cnpj_marca,
+            'nom_modelo' => $request->nom_modelo,
             'imagem' => $pathImgCarro,
             'num_porta' => $request->num_porta,
             'num_assento' => $request->num_assento,
@@ -117,6 +118,7 @@ class ModeloController extends Controller
 
         $numModelo = $request->num_modelo == null ? $modelo->num_modelo : $request->num_modelo;
         $cnpjMarca = $request->cnpj_marca == null ? $modelo->cnpj_marca : $request->cnpj_marca;
+        $nomModelo = $request->nom_modelo == null ? $modelo->nom_modelo : $request->nom_modelo;
         $imagem = $request->imagem == null ? $modelo->imagem : $pathImgCarro;
         $numPorta = $request->num_porta == null ? $modelo->num_porta : $request->num_porta;
         $numAssento = $request->num_assento == null ? $modelo->num_assento : $request->num_assento;
@@ -127,6 +129,7 @@ class ModeloController extends Controller
             [
                 'num_modelo' => $numModelo,
                 'cnpj_marca' => $cnpjMarca,
+                'nom_modelo' => $nomModelo,
                 'imagem' => $imagem,
                 'num_porta' => $numPorta,
                 'num_assento' => $numAssento,
