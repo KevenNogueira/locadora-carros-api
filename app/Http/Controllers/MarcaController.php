@@ -106,7 +106,7 @@ class MarcaController extends Controller
             );
         }
 
-        $pathLogo = null;
+        $pathLogo = $marca->imagem;
         $logo = $request->file('imagem');
 
 
@@ -115,20 +115,9 @@ class MarcaController extends Controller
             Storage::disk('public')->delete($marca->imagem);
         }
 
-        $cnpj = $request->cnpj == null ? $marca->cnpj : $request->cnpj;
-        $nome = $request->nome == null ? $marca->nome : $request->nome;
-        $email = $request->email == null ? $marca->email : $request->email;
-        $imagem = $pathLogo == null ? $marca->imagem : $pathLogo;
-
-
-        $marca->update(
-            [
-                'cnpj' => $cnpj,
-                'nome' => $nome,
-                'email' => $email,
-                'imagem' => $imagem
-            ]
-        );
+        $marca->fill($request->all());
+        $marca->imagem = $pathLogo;
+        $marca->save();
 
         return response()->json(
             [

@@ -108,7 +108,7 @@ class ModeloController extends Controller
             );
         };
 
-        $pathImgCarro = null;
+        $pathImgCarro = $modelo->imagem;
         $imgCarro = $request->file('imagem');
 
         if ($imgCarro != null) {
@@ -116,27 +116,9 @@ class ModeloController extends Controller
             Storage::disk('public')->delete($modelo->imagem);
         };
 
-        $numModelo = $request->num_modelo == null ? $modelo->num_modelo : $request->num_modelo;
-        $cnpjMarca = $request->cnpj_marca == null ? $modelo->cnpj_marca : $request->cnpj_marca;
-        $nomModelo = $request->nom_modelo == null ? $modelo->nom_modelo : $request->nom_modelo;
-        $imagem = $request->imagem == null ? $modelo->imagem : $pathImgCarro;
-        $numPorta = $request->num_porta == null ? $modelo->num_porta : $request->num_porta;
-        $numAssento = $request->num_assento == null ? $modelo->num_assento : $request->num_assento;
-        $airBag = $request->air_bag == null ? $modelo->air_bag : $request->air_bag;
-        $abs = $request->abs == null ? $modelo->abs : $request->abs;
-
-        $modelo->update(
-            [
-                'num_modelo' => $numModelo,
-                'cnpj_marca' => $cnpjMarca,
-                'nom_modelo' => $nomModelo,
-                'imagem' => $imagem,
-                'num_porta' => $numPorta,
-                'num_assento' => $numAssento,
-                'air_bag' => $airBag,
-                'abs' => $abs,
-            ]
-        );
+        $modelo->fill($request->all());
+        $modelo->imagem = $pathImgCarro;
+        $modelo->save();
 
         return response()->json(
             [
