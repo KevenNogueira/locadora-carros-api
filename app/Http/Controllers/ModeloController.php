@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Modelo;
 use App\Http\Requests\StoreModeloRequest;
 use App\Http\Requests\UpdateModeloRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ModeloController extends Controller
@@ -20,9 +21,23 @@ class ModeloController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $modelos = $this->modelo->with('marca')->get();
+        $modelos = array();
+
+        if ($request->has('attr_marca')) {
+            $attr_marca = $request->get('attr_marca');
+            $modelos = $this->modelo->with('marca:cnpj,' . $attr_marca);
+        } else {
+            $modelos = $this->modelo->with('marca');
+        }
+
+        if ($request->has('attr')) {
+            $atributos = $request->get('attr');
+            $modelos = $modelos->selectRaw($atributos)->get();
+        } else {
+            $modelos = $modelos->get();
+        }
 
         return response()->json(
             [
