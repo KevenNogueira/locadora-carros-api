@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Marca;
 use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Requests\UpdateMarcaRequest;
+use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
@@ -19,11 +20,35 @@ class MarcaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $marcas = $this->marca->with('modelos')->get();
+        $marcas = array();
 
-        //$marcas = $this->marca->all();
+        if ($request->has('attr_modelos')) {
+            $attr_modelos = $request->get('attr_modelos');
+            $marcas = $this->marca->with('modelos:num_modelo,' . $attr_modelos);
+        } else {
+            $marcas = $this->marca->with('modelos');
+        }
+
+        if ($request->has('filtro')) {
+
+            $filtros = explode(';', $request->filtro);
+
+            foreach ($filtros as $key => $condicao) {
+
+                $condicoes = explode(':', $condicao);
+                $marcas->where($condicoes[0], $condicoes[1], $condicoes[2]);
+            };
+        }
+
+
+        if ($request->has('attr')) {
+            $atributos = $request->get('attr');
+            $marcas = $marcas->selectRaw($atributos)->get();
+        } else {
+            $marcas = $marcas->get();
+        }
 
         return response()->json(
             [
