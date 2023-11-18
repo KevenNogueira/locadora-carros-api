@@ -28,9 +28,9 @@ class MarcaController extends Controller
 
         if ($request->has('attr_modelos')) {
             $attr_modelos = 'modelos:num_modelo,' . $request->get('attr_modelos');
-            $marcaRepository->selecaoAttrsModelosRelacionados($attr_modelos);
+            $marcaRepository->selecaoAttrsRelacionado($attr_modelos);
         } else {
-            $marcaRepository->selecaoAttrsModelosRelacionados('modelos');
+            $marcaRepository->selecaoAttrsRelacionado('modelos');
         }
 
         if ($request->has('filtro')) {

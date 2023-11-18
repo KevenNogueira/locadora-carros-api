@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Modelo;
 use App\Http\Requests\StoreModeloRequest;
 use App\Http\Requests\UpdateModeloRequest;
+use App\Repositories\ModeloRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,37 +24,26 @@ class ModeloController extends Controller
      */
     public function index(Request $request)
     {
-        $modelos = array();
+        $modeloRepository = new ModeloRepository($this->modelo);
 
         if ($request->has('attr_marca')) {
-            $attr_marca = $request->get('attr_marca');
-            $modelos = $this->modelo->with('marca:cnpj,' . $attr_marca);
+            $attr_marca = 'marca:cnpj,' . $request->get('attr_marca');
+            $modeloRepository->selecaoAttrsRelacionado($attr_marca);
         } else {
-            $modelos = $this->modelo->with('marca');
+            $modeloRepository->selecaoAttrsRelacionado('marca');
         }
 
         if ($request->has('filtro')) {
-
-            $filtros = explode(';', $request->filtro);
-
-            foreach ($filtros as $key => $condicao) {
-
-                $condicoes = explode(':', $condicao);
-                $modelos->where($condicoes[0], $condicoes[1], $condicoes[2]);
-            };
+            $modeloRepository->filtro($request->get('filtro'));
         }
 
-
         if ($request->has('attr')) {
-            $atributos = $request->get('attr');
-            $modelos = $modelos->selectRaw($atributos)->get();
-        } else {
-            $modelos = $modelos->get();
+            $modeloRepository->selecaoAttrs($request->get('attr'));
         }
 
         return response()->json(
             [
-                'modelos' => $modelos,
+                'modelos' => $modeloRepository->getResultado(),
             ],
             200
         );
