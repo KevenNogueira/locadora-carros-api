@@ -51,8 +51,8 @@ class StoreModeloRequest extends FormRequest
             'num_porta.digits_between' => 'O numero de portas deve estar entre 1 e 5',
             'num_assento.digits_between' => 'O numero de num_assento deve estar entre 1 e 57',
             'num_assento.integer' => 'O numero de num_assento deve ser um numero inteiro',
-            'air_bag.boolean' => 'Campo deve conter TRUE ou FALSE',
-            'abs.boolean' => 'Campo deve conter TRUE ou FALSE'
+            'air_bag.boolean' => 'Campo deve conter TRUE(1) ou FALSE(0)',
+            'abs.boolean' => 'Campo deve conter TRUE(1) ou FALSE(0)'
         ];
     }
 }

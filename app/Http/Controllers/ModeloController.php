@@ -141,7 +141,7 @@ class ModeloController extends Controller
             [
                 'statusCode' => 200,
                 'mensagem' => 'Atualização bem-sucedida.',
-                'obj' => $modelo,
+                'modelo' => $modelo,
             ],
             200
         );

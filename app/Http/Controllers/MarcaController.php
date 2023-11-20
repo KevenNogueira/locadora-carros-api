@@ -69,7 +69,7 @@ class MarcaController extends Controller
             [
                 'statusCode' => 201,
                 'mensagem' => 'Criação feita com sucesso!',
-                'obj' => $marca,
+                'marca' => $marca,
             ],
             201
         );
@@ -81,7 +81,6 @@ class MarcaController extends Controller
     public function show($cnpj)
     {
         $marca = $this->marca->with('modelos')->find($cnpj);
-        //$marca = $this->marca->find($cnpj);
 
         if (empty($marca)) {
             return response()->json(
@@ -139,7 +138,7 @@ class MarcaController extends Controller
             [
                 'statusCode' => 200,
                 'mensagem' => 'Atualização bem-sucedida.',
-                'obj' => $marca
+                'marca' => $marca
             ],
             200
         );
