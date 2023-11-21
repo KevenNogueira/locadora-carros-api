@@ -93,7 +93,7 @@ class CarroController extends Controller
         return response()->json(
             [
                 'statusCode' => 200,
-                'mensagem' => 'Carro Localizado',
+                'mensagem' => 'Carro localizado',
                 'carro' => $carro,
             ],
             200

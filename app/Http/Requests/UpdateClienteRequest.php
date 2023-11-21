@@ -11,7 +11,7 @@ class UpdateClienteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,38 @@ class UpdateClienteRequest extends FormRequest
      */
     public function rules(): array
     {
+        $httpMethod = $this->header('X-HTTP-Method');
+
+        $rules = [
+            'cpf' => 'required|min:11|max:11|unique:clientes,cpf',
+            'nome' => 'required|min:3|max:50',
+            'email' => 'required|min:10|max:100|unique:clientes,email|email',
+        ];
+
+        if ($httpMethod === 'PATCH') {
+            $rules = [
+                'cpf' => 'sometimes|required|min:11|max:11|unique:clientes,cpf',
+                'nome' => 'sometimes|required|min:3|max:50',
+                'email' => 'sometimes|required|min:10|max:100|unique:clientes,email|email',
+            ];
+
+            return $rules;
+        }
+
+        return $rules;
+    }
+
+    public function messages()
+    {
         return [
-            //
+            'required' => 'O campo :attribute é obrigatório',
+            'unique' => 'O campo :attribute já foi cadastrado no banco',
+            'cpf.min' => 'O CPF deve conter no minimo 11 caracteres',
+            'cpf.max' => 'O CPF deve conter no máximo 11 caracteres',
+            'nome.min' => 'O nome deve conter no minimo 03 caracteres',
+            'nome.max' => 'O nome deve conter no máximo 50 caracteres',
+            'email.min' => 'O email deve conter no minimo 10 caracteres',
+            'email.max' => 'O email deve conter no máximo 100 caracteres',
         ];
     }
 }

@@ -34,6 +34,7 @@ class StoreCarroRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
+            'unique' => 'O campo :attribute já foi cadastrado no banco',
             'vin.min' => 'O VIN deve conter no minimo 17 caracteres',
             'vin.max' => 'O VIN deve conter no máximo 17 caracteres',
             'num_modelo.exists' => 'O número do modelo informado não existe no banco de dados',

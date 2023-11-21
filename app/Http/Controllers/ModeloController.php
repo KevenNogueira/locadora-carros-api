@@ -100,7 +100,7 @@ class ModeloController extends Controller
         return response()->json(
             [
                 'statusCode' => 200,
-                'mensagem' => 'Modelo Localizado!',
+                'mensagem' => 'Modelo localizado!',
                 'modelo' => $modelo,
             ],
             404

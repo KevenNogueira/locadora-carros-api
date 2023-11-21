@@ -14,4 +14,10 @@ class Cliente extends Model
     protected $primaryKey = 'cpf';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'cpf',
+        'nome',
+        'email'
+    ];
 }
